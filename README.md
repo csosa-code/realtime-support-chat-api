@@ -1,36 +1,57 @@
-# Support Chat SignalR API
+# Support Chat API (Real-Time)
 
-Backend API for a real-time technical support chat system built with **.NET**, **SignalR**, and **MongoDB**.
+Backend de un sistema de chat en tiempo real para soporte técnico, desarrollado con **.NET**, **SignalR** y **MongoDB**.
 
-This API provides the real-time communication layer that allows users and support agents to exchange messages instantly through WebSockets.
-
----
-
-## Features
-
-- Real-time messaging using SignalR
-- Chat session management
-- Chat history persistence
-- Multiple chat rooms using SignalR Groups
-- Agent dashboard support for handling multiple conversations
-- Clean service-based architecture
+Este proyecto implementa comunicación en tiempo real mediante WebSockets, permitiendo interacción instantánea entre usuarios y agentes de soporte.
 
 ---
 
-## Tech Stack
+## 🧠 Descripción del proyecto
 
-- .NET
-- SignalR
+API diseñada para gestionar conversaciones de soporte en tiempo real, con persistencia de mensajes y manejo de múltiples sesiones simultáneas.
+
+El sistema permite:
+- Comunicación instantánea usuario ↔ agente
+- Gestión de múltiples chats activos
+- Historial de conversaciones
+- Panel de agentes en tiempo real
+
+---
+
+## 🏗️ Arquitectura
+
+El proyecto sigue una arquitectura basada en capas:
+
+- `Domain/`
+  → Entidades del sistema (Chat, Message)
+
+- `Application/`
+  → Lógica de negocio (ChatService)
+
+- `Infrastructure/`
+  → Acceso a datos (MongoDB)
+
+- `Repositories/`
+  → Persistencia de datos
+
+- `Hubs/`
+  → Comunicación en tiempo real (SignalR)
+
+---
+
+## ⚙️ Stack Tecnológico
+
+- .NET 10 (Preview)
+- SignalR (WebSockets)
 - MongoDB
 - C#
+- Docker
 
 ---
 
-## Architecture Overview
+## 🔄 Flujo de comunicación
 
-User and agent clients connect to the **SignalR Hub** to exchange messages in real time.
-
-Client (Angular)
+Cliente (Angular)
 │
 ▼
 SignalR Hub
@@ -39,44 +60,84 @@ SignalR Hub
 Application Services
 │
 ▼
-MongoD
+MongoDB
 
-SignalR Groups are used to isolate conversations so each chat session receives only its own messages.
-
----
-
-## Main Components
-
-### ChatHub
-
-Handles all real-time communication between connected clients.
-
-Responsibilities:
-
-- Create chat sessions
-- Join chat rooms
-- Send and receive messages
-- Broadcast updates to agents
-
-### ChatService
-
-Application layer responsible for:
-
-- chat creation
-- message persistence
-- retrieving chat history
-- managing active chats
-
-### MongoDB
-
-Stores:
-
-- chat sessions
-- messages
-- chat history
+- Los clientes se conectan al **ChatHub**
+- Se utilizan **SignalR Groups** para aislar conversaciones
+- Cada chat tiene su propio canal en tiempo real
 
 ---
 
-## Running the API
+## 🧩 Componentes principales
 
-Clone the repository:
+### 🟣 ChatHub
+
+Responsable de la comunicación en tiempo real.
+
+Funciones principales:
+- Crear chats
+- Unirse a salas (groups)
+- Enviar y recibir mensajes
+- Notificar nuevos chats a agentes
+- Cargar historial de conversaciones
+
+---
+
+### 🟢 ChatService
+
+Capa de negocio que maneja:
+
+- Creación de chats
+- Validación de chats activos
+- Persistencia de mensajes
+- Consulta de historial
+- Listado de chats activos
+
+---
+
+### 🟡 MongoDB
+
+Base de datos NoSQL que almacena:
+
+- Chats
+- Mensajes
+- Historial de conversaciones
+
+---
+
+## 📦 Funcionalidades implementadas
+
+### 💬 Chat en tiempo real
+- Comunicación instantánea con SignalR
+- Uso de WebSockets
+- Mensajes en tiempo real sin polling
+
+---
+
+### 👥 Manejo de sesiones
+- Un usuario solo puede tener un chat activo
+- Reutilización de chats existentes
+- Identificación por email
+
+---
+
+### 🧠 Historial de conversaciones
+- Persistencia de mensajes en MongoDB
+- Recuperación de historial por chat
+- Orden cronológico de mensajes
+
+---
+
+### 🧑‍💻 Panel de agentes
+- Recepción de nuevos chats en tiempo real
+- Visualización de chats activos
+- Manejo de múltiples conversaciones
+
+---
+
+### 🧵 Uso de SignalR Groups
+- Cada chat es un grupo independiente
+- Aislamiento de mensajes por conversación
+- Canal exclusivo por sesión
+
+---
